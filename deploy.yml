@@ -10,9 +10,9 @@ on:
 # Define as variáveis de ambiente necessárias para a autenticação e configuração
 env:
   PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
-  GAR_LOCATION: us-central1 # Mesma região do Cloud Run
+  GAR_LOCATION: southamerica-east1 # Mesma região do Cloud Run
   SERVICE: consulta-estoque # Nome do seu serviço no Cloud Run
-  REGION: us-central1 # Mesma região do Cloud Run
+  REGION: southamerica-east1 # Mesma região do Cloud Run
 
 jobs:
   deploy:
