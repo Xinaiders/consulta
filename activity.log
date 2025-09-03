@@ -1,0 +1,100 @@
+01/09/2025 19:45:18 - EVENTO: Login | UTILIZADOR: admin
+01/09/2025 19:45:41 - EVENTO: Login | UTILIZADOR: admin
+01/09/2025 19:46:24 - EVENTO: Busca | UTILIZADOR: admin | TERMO: '148'
+01/09/2025 19:46:53 - EVENTO: Busca | UTILIZADOR: admin | TERMO: 'saco de lixo'
+01/09/2025 19:51:02 | LOGIN | admin | Login efetuado com sucesso
+01/09/2025 19:51:16 | BUSCA | admin | Termo pesquisado: '148'
+01/09/2025 19:55:01 | LOGIN | admin | Login efetuado com sucesso
+01/09/2025 19:55:04 | BUSCA | admin | Termo pesquisado: '148'
+01/09/2025 19:55:13 | BUSCA | admin | Termo pesquisado: '391'
+01/09/2025 19:59:26 | BUSCA | admin | Termo pesquisado: '2333'
+01/09/2025 19:59:43 | BUSCA | admin | Termo pesquisado: '2333'
+01/09/2025 20:00:06 | BUSCA | admin | Termo pesquisado: '2333'
+01/09/2025 20:04:29 | LOGIN | admin | Login efetuado com sucesso
+01/09/2025 20:04:33 | BUSCA | admin | Termo pesquisado: '2333'
+01/09/2025 20:04:49 | BUSCA | admin | Termo pesquisado: 'saco de lixo'
+01/09/2025 20:04:54 | BUSCA | admin | Termo pesquisado: '2333'
+01/09/2025 20:08:36 | BUSCA | admin | Termo pesquisado: '2333'
+01/09/2025 20:12:15 | LOGIN | admin | Login efetuado com sucesso
+01/09/2025 20:12:18 | BUSCA | admin | Termo pesquisado: '2333'
+01/09/2025 20:15:20 | BUSCA | admin | Termo pesquisado: '2333'
+01/09/2025 20:15:51 | BUSCA | admin | Termo pesquisado: '2333'
+01/09/2025 20:23:38 | BUSCA | admin | Termo pesquisado: '2333'
+01/09/2025 20:25:51 | BUSCA | admin | Termo pesquisado: '2333'
+01/09/2025 20:27:31 | BUSCA | admin | Termo pesquisado: '2333'
+01/09/2025 20:30:45 | BUSCA | admin | Termo pesquisado: '2333'
+01/09/2025 20:30:54 | BUSCA | admin | Termo pesquisado: '2333'
+01/09/2025 20:31:01 | BUSCA | admin | Termo pesquisado: '2333'
+01/09/2025 20:33:42 | BUSCA | admin | Termo pesquisado: '2333'
+01/09/2025 20:36:32 | BUSCA | admin | Termo pesquisado: '2333'
+01/09/2025 20:39:21 | LOGIN | admin | Login efetuado com sucesso
+01/09/2025 20:39:32 | BUSCA | admin | Termo pesquisado: '2333'
+01/09/2025 20:44:46 | BUSCA | admin | Termo pesquisado: '2077'
+01/09/2025 20:50:18 - EVENTO: Login | UTILIZADOR: admin
+01/09/2025 20:50:27 - EVENTO: Busca | UTILIZADOR: admin | TERMO: '2333'
+01/09/2025 20:52:58 - EVENTO: Login | UTILIZADOR: admin
+01/09/2025 20:53:10 - EVENTO: Busca | UTILIZADOR: admin | TERMO: '2333'
+01/09/2025 20:53:53 - EVENTO: Login | UTILIZADOR: admin
+01/09/2025 20:55:38 - EVENTO: Login | UTILIZADOR: admin
+01/09/2025 21:04:18 - EVENTO: Logout | UTILIZADOR: admin
+01/09/2025 21:04:25 - EVENTO: Login | UTILIZADOR: admin
+01/09/2025 21:04:39 - EVENTO: Busca | UTILIZADOR: admin | TERMO: '2333'
+01/09/2025 21:04:48 - EVENTO: Busca | UTILIZADOR: admin | TERMO: '2333'
+01/09/2025 21:05:42 - EVENTO: Busca | UTILIZADOR: admin | TERMO: '148'
+01/09/2025 21:05:49 - EVENTO: Busca | UTILIZADOR: admin | TERMO: '148'
+01/09/2025 21:08:46 - EVENTO: Login | UTILIZADOR: admin
+01/09/2025 21:17:12 | EVENTO: Login bem-sucedido | UTILIZADOR: Administrador (admin)
+01/09/2025 21:24:39 | LOGIN_SUCCESS | Administrador (admin) | Acesso concedido
+01/09/2025 21:24:56 | LOGOUT | Administrador (admin) | Sessão terminada
+01/09/2025 21:25:05 | LOGIN_FAIL | admin | Senha incorreta
+01/09/2025 21:25:13 | LOGIN_SUCCESS | Administrador (admin) | Acesso concedido
+01/09/2025 21:31:40 | LOGIN_SUCCESS | Administrador (admin) | Acesso concedido
+01/09/2025 21:42:50 | LOGIN_SUCCESS | Administrador (admin) | Acesso concedido
+01/09/2025 21:42:55 | SUGGESTION_ERROR | Erro ao buscar sugestões: 'Planilha' object has no attribute 'obter_sugestoes'
+01/09/2025 21:42:56 | SUGGESTION_ERROR | Erro ao buscar sugestões: 'Planilha' object has no attribute 'obter_sugestoes'
+01/09/2025 21:42:56 | SUGGESTION_ERROR | Erro ao buscar sugestões: 'Planilha' object has no attribute 'obter_sugestoes'
+01/09/2025 21:42:56 | SUGGESTION_ERROR | Erro ao buscar sugestões: 'Planilha' object has no attribute 'obter_sugestoes'
+01/09/2025 21:42:56 | SUGGESTION_ERROR | Erro ao buscar sugestões: 'Planilha' object has no attribute 'obter_sugestoes'
+01/09/2025 21:42:56 | SUGGESTION_ERROR | Erro ao buscar sugestões: 'Planilha' object has no attribute 'obter_sugestoes'
+01/09/2025 21:42:57 | SUGGESTION_ERROR | Erro ao buscar sugestões: 'Planilha' object has no attribute 'obter_sugestoes'
+01/09/2025 21:42:57 | SUGGESTION_ERROR | Erro ao buscar sugestões: 'Planilha' object has no attribute 'obter_sugestoes'
+01/09/2025 21:42:57 | SUGGESTION_ERROR | Erro ao buscar sugestões: 'Planilha' object has no attribute 'obter_sugestoes'
+01/09/2025 21:42:57 | SUGGESTION_ERROR | Erro ao buscar sugestões: 'Planilha' object has no attribute 'obter_sugestoes'
+01/09/2025 21:42:57 | SUGGESTION_ERROR | Erro ao buscar sugestões: 'Planilha' object has no attribute 'obter_sugestoes'
+01/09/2025 21:42:57 | SUGGESTION_ERROR | Erro ao buscar sugestões: 'Planilha' object has no attribute 'obter_sugestoes'
+01/09/2025 21:42:57 | SUGGESTION_ERROR | Erro ao buscar sugestões: 'Planilha' object has no attribute 'obter_sugestoes'
+01/09/2025 21:42:57 | SUGGESTION_ERROR | Erro ao buscar sugestões: 'Planilha' object has no attribute 'obter_sugestoes'
+01/09/2025 21:42:57 | SUGGESTION_ERROR | Erro ao buscar sugestões: 'Planilha' object has no attribute 'obter_sugestoes'
+01/09/2025 21:42:58 | SUGGESTION_ERROR | Erro ao buscar sugestões: 'Planilha' object has no attribute 'obter_sugestoes'
+01/09/2025 21:42:58 | SUGGESTION_ERROR | Erro ao buscar sugestões: 'Planilha' object has no attribute 'obter_sugestoes'
+01/09/2025 21:42:58 | SUGGESTION_ERROR | Erro ao buscar sugestões: 'Planilha' object has no attribute 'obter_sugestoes'
+01/09/2025 21:42:58 | SUGGESTION_ERROR | Erro ao buscar sugestões: 'Planilha' object has no attribute 'obter_sugestoes'
+01/09/2025 21:42:58 | SUGGESTION_ERROR | Erro ao buscar sugestões: 'Planilha' object has no attribute 'obter_sugestoes'
+01/09/2025 21:42:58 | SUGGESTION_ERROR | Erro ao buscar sugestões: 'Planilha' object has no attribute 'obter_sugestoes'
+01/09/2025 21:42:58 | SUGGESTION_ERROR | Erro ao buscar sugestões: 'Planilha' object has no attribute 'obter_sugestoes'
+01/09/2025 21:42:58 | SUGGESTION_ERROR | Erro ao buscar sugestões: 'Planilha' object has no attribute 'obter_sugestoes'
+01/09/2025 21:43:05 | SUGGESTION_ERROR | Erro ao buscar sugestões: 'Planilha' object has no attribute 'obter_sugestoes'
+01/09/2025 21:43:19 | SUGGESTION_ERROR | Erro ao buscar sugestões: 'Planilha' object has no attribute 'obter_sugestoes'
+01/09/2025 21:43:20 | SUGGESTION_ERROR | Erro ao buscar sugestões: 'Planilha' object has no attribute 'obter_sugestoes'
+01/09/2025 21:43:20 | SUGGESTION_ERROR | Erro ao buscar sugestões: 'Planilha' object has no attribute 'obter_sugestoes'
+01/09/2025 21:43:20 | SUGGESTION_ERROR | Erro ao buscar sugestões: 'Planilha' object has no attribute 'obter_sugestoes'
+01/09/2025 21:43:20 | SUGGESTION_ERROR | Erro ao buscar sugestões: 'Planilha' object has no attribute 'obter_sugestoes'
+01/09/2025 21:43:20 | SUGGESTION_ERROR | Erro ao buscar sugestões: 'Planilha' object has no attribute 'obter_sugestoes'
+01/09/2025 21:45:01 | LOGIN_SUCCESS | Administrador (admin) | Acesso concedido
+01/09/2025 21:48:40 | LOGIN_SUCCESS | Administrador (admin) | Acesso concedido
+01/09/2025 21:49:14 | SEARCH | Administrador (admin) | Termo: '115'
+01/09/2025 21:49:46 | SEARCH | Administrador (admin) | Termo: '2333'
+01/09/2025 21:52:28 | SEARCH | Administrador (admin) | Termo: '2333'
+01/09/2025 21:58:26 | SEARCH | Administrador (admin) | Termo: '2333'
+01/09/2025 22:07:16 | SEARCH | Administrador (admin) | Termo: '789'
+01/09/2025 22:09:36 | SEARCH | Administrador (admin) | Termo: '2333'
+01/09/2025 22:09:59 | SEARCH | Administrador (admin) | Termo: '503'
+01/09/2025 22:10:23 | SEARCH | Administrador (admin) | Termo: '498'
+01/09/2025 22:12:58 | SEARCH | Administrador (admin) | Termo: '2333'
+01/09/2025 22:13:26 | SEARCH | Administrador (admin) | Termo: '788'
+01/09/2025 22:17:43 | SEARCH | Administrador (admin) | Termo: '23'
+01/09/2025 22:21:46 | SEARCH | Administrador (admin) | Termo: '2333'
+01/09/2025 22:25:10 | SEARCH | Administrador (admin) | Termo: '1773'
+01/09/2025 22:25:22 | SEARCH | Administrador (admin) | Termo: '2333'
+01/09/2025 22:26:38 | SEARCH | Administrador (admin) | Termo: '2333'
+01/09/2025 22:26:44 | SEARCH | Administrador (admin) | Termo: '2333'

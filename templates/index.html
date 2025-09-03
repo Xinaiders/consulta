@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consulta Rápida de Estoque</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --primary-hover: #2980b9;
+            --success-color: #2ecc71;
+            --danger-color: #e74c3c;
+            --warning-color: #f39c12;
+            --light-gray: #f4f7fa;
+            --medium-gray: #dfe6e9;
+            --dark-gray: #636e72;
+            --text-color: #2d3436;
+            --white-color: #ffffff;
+            --shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--light-gray);
+            color: var(--text-color);
+            margin: 0;
+            padding: 80px 20px 20px 20px; /* Espaço para o cabeçalho fixo */
+            box-sizing: border-box;
+        }
+
+        /* --- CABEÇALHO FIXO --- */
+        .app-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--white-color);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1001;
+            box-sizing: border-box;
+        }
+        .version-info {
+            font-size: 14px;
+            color: var(--dark-gray);
+        }
+        .version-info a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            margin-left: 10px;
+            transition: color 0.2s;
+        }
+        .version-info a:hover {
+            color: var(--primary-hover);
+        }
+        .logout-button {
+            background-color: var(--danger-color);
+            color: var(--white-color);
+            padding: 8px 15px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background-color 0.2s;
+        }
+        .logout-button:hover {
+            background-color: #c0392b;
+        }
+
+        /* --- LAYOUT PRINCIPAL --- */
+        .main-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            max-width: 1300px;
+            width: 100%;
+            margin: 0 auto;
+        }
+        @media (min-width: 992px) {
+            .main-container {
+                grid-template-columns: 400px 1fr;
+                align-items: flex-start;
+            }
+        }
+
+        .left-column {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .form-container {
+            background-color: var(--white-color);
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+        }
+        .results-container {
+            display: none; /* Controlado via JS */
+        }
+        
+        h1 {
+            color: var(--text-color);
+            font-weight: 600;
+            font-size: 24px;
+            text-align: left;
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+        form {
+            position: relative;
+        }
+        textarea#termo-input {
+            width: 100%;
+            padding: 10px 15px;
+            border: 2px solid var(--medium-gray);
+            border-radius: 8px;
+            font-size: 16px;
+            font-family: 'Poppins', sans-serif;
+            box-sizing: border-box;
+            transition: border-color 0.2s;
+            resize: none;
+            overflow-y: hidden;
+            line-height: 1.5;
+        }
+        textarea#termo-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+        button[type="submit"] {
+            margin-top: 15px;
+            width: 100%;
+            padding: 12px;
+            background-color: var(--primary-color);
+            color: var(--white-color);
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        button[type="submit"]:hover:not(:disabled) {
+            background-color: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        button:disabled {
+            background-color: var(--medium-gray);
+            cursor: not-allowed;
+        }
+
+        /* --- AUTOCOMPLETAR --- */
+        .autocomplete-items {
+            position: absolute;
+            border: 1px solid var(--medium-gray);
+            border-radius: 8px;
+            z-index: 99;
+            top: 100%;
+            left: 0;
+            right: 0;
+            margin-top: 5px;
+            max-height: 250px;
+            overflow-y: auto;
+            background-color: var(--white-color);
+            box-shadow: var(--shadow);
+        }
+        .autocomplete-items div {
+            padding: 12px 15px;
+            cursor: pointer;
+            border-bottom: 1px solid var(--medium-gray);
+        }
+        .autocomplete-items div.feedback-message {
+            cursor: default;
+            color: var(--dark-gray);
+        }
+        .autocomplete-items div:last-child {
+            border-bottom: none;
+        }
+        .autocomplete-items .autocomplete-active {
+            background-color: var(--primary-color) !important;
+            color: var(--white-color);
+        }
+        mark {
+            background-color: #f1c40f;
+            color: var(--text-color);
+            border-radius: 3px;
+            padding: 1px 3px;
+        }
+
+        /* --- CARDS DE RESULTADO --- */
+        .card {
+            background-color: var(--white-color);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+        }
+        .card h3 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 0;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+        .card h3 svg {
+            width: 18px;
+            height: 18px;
+        }
+        .card p {
+            margin: 8px 0;
+            font-size: 14px;
+            line-height: 1.6;
+            word-wrap: break-word;
+        }
+        .card strong {
+            color: var(--text-color);
+            font-weight: 500;
+        }
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 5px 20px;
+        }
+        .tables-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+        @media (min-width: 1200px) {
+             .tables-container {
+                grid-template-columns: 1fr 1fr;
+             }
+        }
+        .product-main-header {
+            border-bottom: 1px solid var(--medium-gray);
+            padding-bottom: 15px;
+            margin-bottom: 15px;
+        }
+        .product-main-header h3 {
+             margin-bottom: 10px;
+        }
+        .product-title-status {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+        }
+        .product-title h2 {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-color);
+            margin: 0;
+            line-height: 1.4;
+        }
+        .product-status {
+            flex-shrink: 0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            font-size: 13px;
+            table-layout: fixed;
+        }
+        th, td {
+            padding: 10px;
+            text-align: center;
+            vertical-align: middle;
+            word-wrap: break-word;
+        }
+        th {
+            background-color: var(--light-gray);
+            color: var(--dark-gray);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 11px;
+        }
+        tbody tr {
+            border-bottom: 1px solid var(--medium-gray);
+        }
+        tbody tr:last-child {
+            border-bottom: none;
+        }
+
+        .loading-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(255, 255, 255, 0.8);
+            display: none; justify-content: center; align-items: center;
+            z-index: 1000; flex-direction: column;
+        }
+        .spinner {
+            border: 8px solid #f3f3f3; border-top: 8px solid var(--primary-color);
+            border-radius: 50%; width: 60px; height: 60px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+        
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.6); display: none;
+            justify-content: center; align-items: center; z-index: 1002;
+        }
+        .modal-content {
+            background-color: var(--white-color); padding: 25px 30px;
+            border-radius: 12px; max-width: 550px; width: 90%;
+            position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .modal-body { max-height: 400px; overflow-y: auto; padding-right: 15px; }
+        .modal-body h3 { border-bottom: 1px solid var(--medium-gray); padding-bottom: 5px; margin-top: 20px; }
+        .modal-body ul { padding-left: 20px; list-style-type: disc; }
+        .version-date { font-size: 14px; color: var(--dark-gray); font-weight: normal; }
+        .close-button { position: absolute; top: 15px; right: 20px; font-size: 28px; font-weight: bold; cursor: pointer; color: var(--dark-gray); }
+
+        .status {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 12px;
+            color: var(--white-color);
+            text-transform: uppercase;
+        }
+        .status-ativo { 
+            background-color: var(--success-color);
+            font-size: 13px;
+        }
+        .status-inativo { 
+            background-color: var(--danger-color); 
+            font-size: 13px; 
+        }
+        .status-outro { background-color: var(--dark-gray); }
+        
+        .table-row-overdue {
+            background-color: #fbeae9 !important;
+            font-weight: 500;
+        }
+        
+        .col-data { width: 30%; }
+        .col-principal { width: 35%; }
+        .col-qtd { width: 15%; }
+        .col-final { width: 20%; }
+    </style>
+</head>
+<body>
+    <header class="app-header">
+        <div class="version-info">
+            <strong>v2.2.0</strong> 
+            <a href="#" id="ver-novidades-link">Ver Histórico</a>
+        </div>
+        <a href="{{ url_for('logout') }}" class="logout-button">Sair</a>
+    </header>
+
+    <div class="main-container">
+        <div class="left-column">
+            <div class="form-container">
+                <h1>Consulta de Produto</h1>
+                <form id="form-busca" autocomplete="off">
+                    <textarea id="termo-input" placeholder="Digite o Código ou a Descrição..." required autofocus rows="1"></textarea>
+                    <div id="autocomplete-list" class="autocomplete-items"></div>
+                    <button type="submit" id="botao-busca" disabled>Buscar</button>
+                </form>
+            </div>
+        </div>
+        <div class="results-container" id="resultado"></div>
+    </div>
+
+    <div id="loading-overlay" class="loading-overlay">
+        <div class="spinner"></div>
+        <p>A carregar...</p>
+    </div>
+
+    <div id="modal-novidades" class="modal-overlay">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>Histórico de Versões</h2>
+            <div class="modal-body">
+                <h3>v2.2.0 <span class="version-date">(01/09/2025)</span></h3>
+                <ul>
+                    <li><strong>NOVO:</strong> Layout da área de resultados completamente redesenhado para ser mais compacto e visual.</li>
+                    <li><strong>MELHORIA:</strong> Todas as informações do produto agora são exibidas num único painel, sem necessidade de rolar a página.</li>
+                </ul>
+                <h3>v2.1.9 <span class="version-date">(01/09/2025)</span></h3>
+                <ul>
+                    <li><strong>MELHORIA:</strong> Layout da página principal aprimorado com um novo cabeçalho de título.</li>
+                </ul>
+                <h3>v2.1.8 <span class="version-date">(01/09/2025)</span></h3>
+                <ul>
+                    <li><strong>MELHORIA:</strong> Layout reorganizado para aproveitar o espaço na coluna da esquerda.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let sugestoesCache = [];
+        const formElement = document.getElementById('form-busca');
+        const inputElement = document.getElementById('termo-input');
+        const suggestionsContainer = document.getElementById('autocomplete-list');
+        const searchButton = document.getElementById('botao-busca');
+        const resultadoContainer = document.getElementById('resultado');
+        const loadingOverlay = document.getElementById('loading-overlay');
+        const novidadesLink = document.getElementById('ver-novidades-link');
+        const novidadesModal = document.getElementById('modal-novidades');
+        const closeButton = novidadesModal.querySelector('.close-button');
+        let currentFocus = -1;
+        
+        function adjustTextareaHeight() {
+            inputElement.style.height = 'auto';
+            inputElement.style.height = (inputElement.scrollHeight) + 'px';
+        }
+
+        novidadesLink.addEventListener('click', (e) => { e.preventDefault(); novidadesModal.style.display = 'flex'; });
+        closeButton.addEventListener('click', () => { novidadesModal.style.display = 'none'; });
+        window.addEventListener('click', (e) => {
+            if (e.target !== inputElement) { closeAllLists(); }
+            if (e.target == novidadesModal) { novidadesModal.style.display = 'none'; }
+        });
+        async function getSugestoes() {
+            if (sugestoesCache.length === 0) {
+                try {
+                    loadingOverlay.style.display = 'flex';
+                    const response = await fetch('/sugestoes');
+                    if (!response.ok) { throw new Error(`HTTP error! status: ${response.status}`); }
+                    sugestoesCache = await response.json();
+                } catch (error) {
+                    console.error('Erro ao buscar sugestões:', error);
+                    sugestoesCache = []; return null;
+                } finally {
+                    loadingOverlay.style.display = 'none';
+                }
+            }
+            return sugestoesCache;
+        }
+        async function showSuggestions() {
+            const termo = inputElement.value;
+            if (!termo) return;
+            closeAllLists();
+            const searchingDiv = document.createElement('div');
+            searchingDiv.textContent = 'A procurar sugestões...';
+            searchingDiv.classList.add('feedback-message');
+            suggestionsContainer.appendChild(searchingDiv);
+            const sugestoes = await getSugestoes();
+            closeAllLists();
+            if (sugestoes === null) {
+                const errorDiv = document.createElement('div');
+                errorDiv.textContent = 'Erro ao carregar sugestões.';
+                errorDiv.classList.add('feedback-message');
+                suggestionsContainer.appendChild(errorDiv);
+                return;
+            }
+            const termoUpper = termo.toUpperCase();
+            const keywords = termoUpper.split(' ').filter(k => k); 
+            const resultadosFiltrados = sugestoes.filter(sugestao => {
+                const sugestaoUpper = sugestao.toUpperCase();
+                return keywords.every(keyword => sugestaoUpper.includes(keyword));
+            });
+            if (resultadosFiltrados.length === 0) {
+                const noResultDiv = document.createElement('div');
+                noResultDiv.textContent = 'Nenhum resultado encontrado.';
+                noResultDiv.classList.add('feedback-message');
+                suggestionsContainer.appendChild(noResultDiv);
+                return;
+            }
+            currentFocus = -1;
+            resultadosFiltrados.forEach((sugestao) => {
+                const div = document.createElement('div');
+                const originalKeywords = termo.split(' ').filter(k => k);
+                const regex = new RegExp(`(${originalKeywords.join('|')})`, 'gi');
+                div.innerHTML = sugestao.replace(regex, "<mark>$1</mark>");
+                div.addEventListener('click', function() { selectItem(sugestao); });
+                suggestionsContainer.appendChild(div);
+            });
+            currentFocus = 0;
+            addActive();
+        }
+        function selectItem(value) { 
+            inputElement.value = value; 
+            searchButton.disabled = false; 
+            closeAllLists(); 
+            inputElement.focus();
+            adjustTextareaHeight();
+        }
+        function addActive() {
+            let items = suggestionsContainer.querySelectorAll("div:not(.feedback-message)");
+            if (!items.length) return;
+            removeActive(items);
+            if (currentFocus >= items.length) currentFocus = 0;
+            if (currentFocus < 0) currentFocus = (items.length - 1);
+            items[currentFocus].classList.add("autocomplete-active");
+        }
+        function removeActive(items) { for (let i = 0; i < items.length; i++) { items[i].classList.remove("autocomplete-active"); } }
+        function closeAllLists() { suggestionsContainer.innerHTML = ''; }
+        
+        inputElement.addEventListener('input', () => {
+            searchButton.disabled = true;
+            closeAllLists();
+            adjustTextareaHeight();
+        });
+        
+        inputElement.addEventListener('click', () => {
+             searchButton.disabled = true;
+             closeAllLists();
+        });
+
+        inputElement.addEventListener('keydown', function(e) {
+            let items = suggestionsContainer.querySelectorAll("div:not(.feedback-message)");
+            if (e.key === "ArrowDown") { currentFocus++; addActive(); } 
+            else if (e.key === "ArrowUp") { currentFocus--; addActive(); } 
+            else if (e.key === "Enter") {
+                e.preventDefault();
+                if (items.length > 0) { if (currentFocus > -1) { items[currentFocus].click(); } } 
+                else { showSuggestions(); }
+            } else if (e.key === "Escape") { closeAllLists(); }
+        });
+        formElement.addEventListener('submit', function(e) { e.preventDefault(); buscarProduto(); });
+        function getDaysDifference(dateString) {
+            if (!dateString || typeof dateString !== 'string') return 0;
+            const parts = dateString.split('/');
+            if (parts.length !== 3) return 0;
+            const day = parseInt(parts[0], 10);
+            const month = parseInt(parts[1], 10) - 1;
+            let year = parseInt(parts[2], 10);
+            if (year < 100) { year += 2000; }
+            const itemDate = new Date(year, month, day);
+            const today = new Date();
+            itemDate.setHours(0, 0, 0, 0);
+            today.setHours(0, 0, 0, 0);
+            if (isNaN(itemDate.getTime())) return 0;
+            const diffTime = today.getTime() - itemDate.getTime();
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            return diffDays > 0 ? diffDays : 0;
+        }
+        async function buscarProduto() {
+            const termoCompleto = inputElement.value;
+            if (!termoCompleto) return;
+            const termoParaBusca = termoCompleto.split(' - ')[0].trim();
+            loadingOverlay.style.display = 'flex'; 
+            resultadoContainer.innerHTML = '';
+            resultadoContainer.style.display = 'none';
+            try {
+                const responsePrincipal = await fetch('/buscar', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ termo: termoParaBusca }) 
+                });
+                const dataPrincipal = await responsePrincipal.json();
+                if (dataPrincipal.status === 'sucesso') {
+                    const item = dataPrincipal.data;
+                    function getVal(key) {
+                        if (!item) return 'N/D';
+                        const lowerKey = key.toLowerCase().trim().replace(/\s+/g, ' ');
+                        for (const itemKey in item) {
+                            if (itemKey.toLowerCase().trim().replace(/\s+/g, ' ') === lowerKey) {
+                                const valor = item[itemKey];
+                                return valor !== undefined && valor !== '' ? valor : 'N/D';
+                            }
+                        }
+                        return 'N/D';
+                    }
+                    function getValRobust(keys) {
+                        for (const key of keys) {
+                            const value = getVal(key);
+                            if (value !== 'N/D') return value;
+                        }
+                        return 'N/D';
+                    }
+                    const codigoProduto = getVal('COD');
+                    const responseSuprimentos = await fetch('/suprimentos', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ codigo: codigoProduto })
+                    });
+                    const dataSuprimentos = await responseSuprimentos.json();
+                    function getStatusHTML(status) {
+                        if (!status || status === 'N/D') return `<span class="status status-outro">N/D</span>`;
+                        const statusUpper = status.toUpperCase().trim();
+                        if (statusUpper === 'ATIVO') return `<span class="status status-ativo">ATIVO</span>`;
+                        if (statusUpper === 'INATIVO') return `<span class="status status-inativo">INATIVO</span>`;
+                        return `<span class="status status-outro">${status}</span>`;
+                    }
+                    let solicitacoesTabela = '<h4>Nenhuma solicitação pendente.</h4>';
+                    if (dataSuprimentos.solicitacoes && dataSuprimentos.solicitacoes.length > 0) {
+                        solicitacoesTabela = `
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th class="col-data">Data Solicitação</th>
+                                        <th class="col-principal">Prioridade</th>
+                                        <th class="col-qtd">Quantidade</th>
+                                        <th class="col-final">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${dataSuprimentos.solicitacoes.map(s => {
+                                        const diasAtraso = getDaysDifference(s['Data da Solicitacao']);
+                                        const linhaClasse = diasAtraso > 5 ? 'class="table-row-overdue"' : '';
+                                        return `
+                                            <tr ${linhaClasse}>
+                                                <td>${s['Data da Solicitacao'] || 'N/D'}</td>
+                                                <td>${s['Nivel de Prioridade'] || 'N/D'}</td>
+                                                <td>${s['Quantidade'] || 'N/D'}</td>
+                                                <td>${s['Status de Pendencia'] || 'N/D'}</td>
+                                            </tr>`;
+                                    }).join('')}
+                                </tbody>
+                            </table>`;
+                    }
+                    let comprasTabela = '<h4>Nenhuma compra em aberto.</h4>';
+                    if (dataSuprimentos.compras && dataSuprimentos.compras.length > 0) {
+                        comprasTabela = `
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th class="col-data">Data Pedido</th>
+                                        <th class="col-principal">Fornecedor</th>
+                                        <th class="col-qtd">Quantidade</th>
+                                        <th class="col-final">Previsão Entrega</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${dataSuprimentos.compras.map(c => {
+                                        const diasAtraso = getDaysDifference(c['Data do Pedido']);
+                                        const linhaClasse = diasAtraso > 3 ? 'class="table-row-overdue"' : '';
+                                        return `
+                                            <tr ${linhaClasse}>
+                                                <td>${c['Data do Pedido'] || 'N/D'}</td>
+                                                <td>${c['Fornecedor'] || 'N/D'}</td>
+                                                <td>${c['Quantidade'] || 'N/D'}</td>
+                                                <td>${c['Previsao de Chegada'] || 'N/D'}</td>
+                                            </tr>`;
+                                    }).join('')}
+                                </tbody>
+                            </table>`;
+                    }
+                    const descricao = getValRobust(['DESCRIÇÃO COMPLETA', 'DESCRICAO COMPLETA', 'DESCRIÇÃO', 'DESCRICAO']);
+                    
+                    const htmlContent = `
+                        <div class="card">
+                            <div class="product-main-header">
+                                <div class="product-title-status">
+                                    <div class="product-title">
+                                        <h2>${getVal('COD')} - ${descricao}</h2>
+                                    </div>
+                                    <div class="product-status">
+                                        ${getStatusHTML(getVal('STATUS'))}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="info-grid">
+                                <p><strong>Unid. Medida:</strong> ${getValRobust(['UNIDADE MEDIDA', 'UNID. MEDIDA'])}</p>
+                                <p><strong>Saldo Estoque:</strong> ${getVal('SALDO ESTOQUE')}</p>
+                                <p><strong>Fornecedor:</strong> ${getVal('FORNECEDOR')}</p>
+                                <p><strong>Em Compra:</strong> ${getVal('EM COMPRA')}</p>
+                                <p><strong>Prazo Entrega:</strong> ${getVal('PRAZO DE ENTREGA')}</p>
+                                <p><strong>Média Mensal:</strong> ${getValRobust(['MÉDIA MENSAL', 'MEDIA MENSAL'])}</p>
+                                <p><strong>Projeção (Dias):</strong> ${getValRobust(['PROJEÇÃO DO ESTOQUE (DIAS)', 'PROJECAO DO ESTOQUE (DIAS)'])}</p>
+                            </div>
+                            <div class="tables-container" style="margin-top: 20px;">
+                                <div class="table-wrapper">
+                                    <h3>
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08H4.125a2.25 2.25 0 00-2.25 2.25v4.022c.576.21-1.04 1.136-1.04 2.208v.622a2.25 2.25 0 002.25 2.25h1.522c.477 0 .948.19 1.285.52l3.5 3.5a1.125 1.125 0 001.59 0l3.5-3.5c.337-.33.808-.52 1.285-.52H18z" /></svg>
+                                        Solicitações em Aberto
+                                    </h3>
+                                    ${solicitacoesTabela}
+                                </div>
+                                <div class="table-wrapper">
+                                    <h3>
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.125-.504 1.125-1.125V14.25m-17.25 4.5v-1.875a3.375 3.375 0 013.375-3.375h9.75a3.375 3.375 0 013.375 3.375v1.875m-17.25 4.5h15M6.375 12H20.25" /></svg>
+                                        Compras em Aberto
+                                    </h3>
+                                    ${comprasTabela}
+                                </div>
+                            </div>
+                        </div>`;
+                    resultadoContainer.innerHTML = htmlContent;
+                } else {
+                    resultadoContainer.innerHTML = `<div class="card"><p class="error-message">${dataPrincipal.mensagem}</p></div>`;
+                }
+            } catch (error) {
+                console.error('Erro na busca:', error);
+                resultadoContainer.innerHTML = `<div class="card"><p class="error-message">Erro ao se comunicar com o servidor.</p></div>`;
+            } finally {
+                loadingOverlay.style.display = 'none'; 
+                resultadoContainer.style.display = 'flex'; 
+            }
+        }
+    </script>
+</body>
+</html>
+

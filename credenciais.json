@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "consulta-matri",
+  "private_key_id": "8406ece52707114ab1e231e5a772229b14009745",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDylZGdCog8039d\nSE9NOQxrk3MBaZu+6D/k3j/DndYvrnxPFn2q4FYgGEiCsDWcDtCg3YOW+95FKetc\ni+FY41KqypjgLKhiCSqUEIXg2ccVwyWTFA9ntPLqgbsXcQoenZZPnjfqIJb8GjkJ\ng+zBm36EdPqI3ykwcO4r+5FBHMLbKnYnxcLiFK8Dw3KRA/Q7yWBmrfTUjqwA2iOG\nMArovTI2+F8oBZsogSiXEkVPpMHIBU/V4eUkxKgpNPmmbVswiIEB5PFlC95tcyzn\nGNQmpCrDjYO4C1pHgJSnjIuvg8rcYxm5Tk2nNMBlRNZhrwmORU3laKRuKoT8EKkF\nQ52PoY/tAgMBAAECggEAcOvU46BieMYO9LJTT+QtduolT9QETuK302btkbaoXHvB\nm+MhTmitTrVfE47I9cMjtK5IsgC+n716tRLcLE9tTNmQPlIrc69GpbPnThqyBNxZ\nYlSlMyZVKXqIR8oz5rp+nMNOzeqrveDLCjXiAOHMDAaUFSCkgMsg41JwdDnaLsB2\nTAGRELrPblju4bfLonyUIQA4yG8m9EED7gkz4CkwtZO23FS6dTlzrd8YBAMzfj4H\nqsBi7tgAA1GO7KC0BM5A6uq9ABHoBMUT8EVQxuy+/fDl5emQVHqF1Ob/zGlJICUb\nF6DfvfqZ7Ydpr3KCdkEKJyRDKpJSrkTDWf0muSGWNQKBgQD5rI3hctgwDcnZe8jA\ndqAGin8+j0Yx1Vvjl2Aa/YmSg+9QuWFm1zGv9naP0Wa1cMVgIjqJE/lFB8zatJGF\nCabT0T/tSqE83//XjCd44pBim5vO9f69i/TY66FOcxYapggJt6EW2bM8VqNSjjgH\nzbIwe1hcbd78eePexaUEI6DHzwKBgQD4uwdNL/+2/4Ez9a6OtOfGSDHz83/73aMN\nqtCPE93L5kDui0bXlVdaBVM7fOxPgt1NnxgV5NCqrIQ41uQ7I7c1meCJqgecRMMs\nObofhlLrmruOliqIy0OuYSypd2Ubkdz+qdwT3Jlw2zRwsc4LXvOypcQIiZnxAvBm\nRAMw2lLfgwKBgQCSFthR4UwEGh1QhzB5BTAvg5xes6DECe6hZfKS+GUl+NLv7fjD\nHwlwx4qqLkGlyt2CmaScjrZdIOpJ0jwPlw0phZedNfzQTNU7f0OdZRxMxnZNi/zJ\nVfonbwBMkeSOJTYw0WSNpUZN+PfJl3PLhR1NZu7V7mf6XSvrLsSWfm5WWwKBgQDt\neUuoU1p28oz9+eQWFfxv4D/pJSOdaeeiReLnp9UMNqLp3YnejJQgu5LS6huIcm4u\nDOZnCNZ9DUcUKX8wQ5JJF8g8R10KwtAA6oCcVpfWoB3QLekgP8k3tUl55ydeYi43\n6h7Xy7en+3Ge4vPRAW/0sbVvXUjfxamWSfst6lRTVwKBgGTte4L11PToxs6XnLnn\nGKsy9U/p14AB6plBDyLkn3NrSWs3yemMalRBfV9q/fy5KullfbsV72/csFoDtjrg\n3g9RJj0kRRycOUcFNu8JftWXwYLlN8QByCv2eC38MDso9NYP5QnRHLYxzmu7duqK\ndL19nHtKxT2WQGuRGYm7/BsZ\n-----END PRIVATE KEY-----\n",
+  "client_email": "robo-leitor-estoque@consulta-matri.iam.gserviceaccount.com",
+  "client_id": "112611668991472863638",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/robo-leitor-estoque%40consulta-matri.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
