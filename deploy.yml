@@ -1,0 +1,53 @@
+# Nome do fluxo de trabalho que aparecerá no GitHub
+name: Deploy to Cloud Run
+
+# Define o gatilho: este fluxo de trabalho será executado a cada 'push' para o branch 'main'
+on:
+  push:
+    branches:
+      - main
+
+# Define as variáveis de ambiente necessárias para a autenticação e configuração
+env:
+  PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+  GAR_LOCATION: us-central1 # Mesma região do Cloud Run
+  SERVICE: consulta-estoque # Nome do seu serviço no Cloud Run
+  REGION: us-central1 # Mesma região do Cloud Run
+
+jobs:
+  deploy:
+    # Permissões necessárias para que o GitHub possa autenticar-se no Google Cloud
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
+    runs-on: ubuntu-latest # O trabalho será executado numa máquina virtual Linux
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3 # Descarrega o seu código para a máquina virtual
+
+      - name: 'Authenticate to Google Cloud'
+        uses: 'google-github-actions/auth@v1'
+        with:
+          workload_identity_provider: ${{ secrets.WIF_PROVIDER }}
+          service_account: ${{ secrets.WIF_SERVICE_ACCOUNT }}
+
+      - name: 'Set up Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@v1'
+
+      - name: 'Configure Docker'
+        run: gcloud auth configure-docker ${{ env.GAR_LOCATION }}-docker.pkg.dev
+
+      - name: 'Build and Push Docker image'
+        run: |-
+          docker build --tag "${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.SERVICE }}/${{ env.SERVICE }}:${{ github.sha }}" .
+          docker push "${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.SERVICE }}/${{ env.SERVICE }}:${{ github.sha }}"
+
+      - name: 'Deploy to Cloud Run'
+        run: |-
+          gcloud run deploy ${{ env.SERVICE }} \
+            --region ${{ env.REGION }} \
+            --image "${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.SERVICE }}/${{ env.SERVICE }}:${{ github.sha }}" \
+            --platform "managed" \
+            --allow-unauthenticated \
+            --set-secrets="/app/credenciais.json=consulta-creds:latest"
