@@ -10,9 +10,9 @@ on:
 # Define as variáveis de ambiente necessárias para a autenticação e configuração
 env:
   PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
-  GAR_LOCATION: southamerica-east1 # Mesma região do Cloud Run
+  GAR_LOCATION: southamerica-east1 # Região ajustada para São Paulo
   SERVICE: consulta-estoque # Nome do seu serviço no Cloud Run
-  REGION: southamerica-east1 # Mesma região do Cloud Run
+  REGION: southamerica-east1 # Região ajustada para São Paulo
 
 jobs:
   deploy:
@@ -22,6 +22,12 @@ jobs:
       id-token: 'write'
 
     runs-on: ubuntu-latest # O trabalho será executado numa máquina virtual Linux
+    
+    # Define o diretório de trabalho para a pasta 'consulta'
+    defaults:
+      run:
+        working-directory: consulta
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3 # Descarrega o seu código para a máquina virtual
@@ -51,3 +57,4 @@ jobs:
             --platform "managed" \
             --allow-unauthenticated \
             --set-secrets="/app/credenciais.json=consulta-creds:latest"
+
