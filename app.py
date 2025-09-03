@@ -8,7 +8,7 @@ import logging
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
 
-# --- CONFIGURAÇÃO DE LOG DE ATIVIDADES ---
+# --- TESTE SSSSS   CONFIGURAÇÃO DE LOG DE ATIVIDADES ---
 log_formatter = logging.Formatter('%(asctime)s | %(message)s', datefmt='%d/%m/%Y %H:%M:%S')
 log_handler = logging.FileHandler('activity.log', encoding='utf-8')
 log_handler.setFormatter(log_formatter)
